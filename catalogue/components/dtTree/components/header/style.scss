@@ -1,0 +1,14 @@
+.dtTreeHeaderWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  &-left {
+    display: flex;
+    align-items: center;
+  }
+  &-right {
+    display: flex;
+    align-items: center;
+  }
+}

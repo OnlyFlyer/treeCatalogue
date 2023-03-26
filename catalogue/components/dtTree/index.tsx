@@ -12,39 +12,22 @@ import {
 import { Tooltip, Tree, Input } from 'antd';
 import type { TreeProps } from 'antd';
 
-import DtTree from './dtTree';
-import DtTreeSelect from './dtTreeSelect';
+import { Header, Search } from './components';
 
-export interface IProps {
-  // 标题
-  title?: string;
-  dataSource?: TreeProps['treeData'];
-  // 是否展开
-  collapsed?: boolean;
+export interface IProps extends TreeProps {
+  /** 是否展示头部组件 */
+  showHeader?: boolean;
+  treeTit?: React.ReactNode;
 }
 
-const CatalogueTree = (props: IProps) => {
+const DtTree = (props: IProps) => {
+  const { showHeader, treeTit } = props;
   const prefixCls = 'dtc-catalogue-tree';
   const [collapsed, setCollapsed] = useState(false);
   return (
     <div className={`${prefixCls}`} style={{ background: '#eee', padding: 50 }}>
       <div style={{ maxWidth: 230, padding: 12, background: '#fff' }}>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <QuestionCircleOutlined />
-            {props.title}
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <PlusOutlined />
-            {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-          </div>
-        </div>
+        {showHeader ? <Header title={treeTit} collapsed={collapsed} /> : null}
         <Input.Search placeholder="搜索任务名称" />
         <Tree
           treeData={props.dataSource}
@@ -58,11 +41,9 @@ const CatalogueTree = (props: IProps) => {
   );
 };
 
-CatalogueTree.Tree = DtTree;
-CatalogueTree.TreeSelect = DtTreeSelect;
-
-CatalogueTree.defaultProps = {
-  title: '标签目录',
+DtTree.defaultProps = {
+  showHeader: true,
+  treeTit: '标签目录',
   collapsed: true,
   dataSource: [
     {
@@ -262,4 +243,4 @@ CatalogueTree.defaultProps = {
   ],
 };
 
-export default CatalogueTree;
+export default DtTree;

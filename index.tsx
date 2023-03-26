@@ -1,15 +1,16 @@
 import * as React from 'react';
+import { Space } from 'antd';
 import { render } from 'react-dom';
 
-import Demo from './components';
+import Catalogue from './catalogue';
 import './style.scss';
 
 const App = () => {
   return (
     <div>
-      {/* zxcz */}
-      <Demo />
-      {/* <Demo.Tree /> */}
+      <Catalogue.Tree />
+      <Space />
+      <Catalogue.TreeSelect />
     </div>
   );
 };
