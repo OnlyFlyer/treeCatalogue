@@ -13,30 +13,69 @@ import { Tooltip, Tree, Input } from 'antd';
 import type { TreeProps } from 'antd';
 
 import { Header, Search } from './components';
+import { filterData } from './helpers';
+import './style.scss';
+
+export const prefixCls = 'dtTreeWrapper';
 
 export interface IProps extends TreeProps {
   /** 是否展示头部组件 */
   showHeader?: boolean;
   treeTit?: React.ReactNode;
+  wrapperClassName?: string;
+  /** 点击搜索按钮回调 */
+  onSearch?: (
+    value: string,
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.MouseEvent<HTMLElement, MouseEvent>
+      | React.KeyboardEvent<HTMLInputElement>,
+    data: TreeProps['treeData']
+  ) => void;
 }
 
 const DtTree = (props: IProps) => {
-  const { showHeader, treeTit } = props;
-  const prefixCls = 'dtc-catalogue-tree';
+  const {
+    showHeader,
+    treeTit,
+    wrapperClassName,
+    onSearch,
+    treeData,
+    ...restProps
+  } = props;
   const [collapsed, setCollapsed] = useState(false);
+  const handleSearch = (searchStr, e) => {
+    onSearch(searchStr, e, filterData(treeData, searchStr));
+  };
+  if (collapsed) {
+    return (
+      <MenuUnfoldOutlined
+        onClick={() => {
+          setCollapsed(false);
+        }}
+      />
+    );
+  }
   return (
-    <div className={`${prefixCls}`} style={{ background: '#eee', padding: 50 }}>
-      <div style={{ maxWidth: 230, padding: 12, background: '#fff' }}>
-        {showHeader ? <Header title={treeTit} collapsed={collapsed} /> : null}
-        <Input.Search placeholder="搜索任务名称" />
-        <Tree
-          treeData={props.dataSource}
-          style={{ marginTop: 8 }}
-          // switcherIcon={1}
-          showIcon
-          height={200}
+    <div className={`${prefixCls} ${wrapperClassName || ''}`}>
+      {showHeader ? (
+        <Header
+          title={treeTit}
+          collapsed={collapsed}
+          onCollapsed={(flag) => {
+            setCollapsed(flag);
+          }}
         />
-      </div>
+      ) : null}
+      <Input.Search placeholder="搜索任务名称" onSearch={handleSearch} />
+      <Tree
+        treeData={treeData}
+        style={{ marginTop: 8 }}
+        // switcherIcon={1}
+        showIcon
+        height={200}
+        {...restProps}
+      />
     </div>
   );
 };
@@ -45,202 +84,6 @@ DtTree.defaultProps = {
   showHeader: true,
   treeTit: '标签目录',
   collapsed: true,
-  dataSource: [
-    {
-      key: '1',
-      title: '1',
-      icon: <SmileOutlined />,
-      children: [
-        {
-          key: '1.1',
-          title: '1.1',
-          icon: <SmileOutlined />,
-          children: [
-            {
-              key: '1.1.1',
-              title: '1.1.1',
-              icon: <MehOutlined />,
-            },
-            {
-              key: '1.1.2',
-              title: '1.1.2',
-              icon: <MehOutlined />,
-            },
-            {
-              key: '1.1.3',
-              title: '1.1.3',
-              icon: <MehOutlined />,
-            },
-            {
-              key: '1.1.4',
-              title: '1.1.4',
-              icon: <MehOutlined />,
-            },
-            {
-              key: '1.1.5',
-              title: '1.1.5',
-              icon: <MehOutlined />,
-            },
-            {
-              key: '1.1.6',
-              title: '1.1.6',
-              icon: <MehOutlined />,
-            },
-          ],
-        },
-        {
-          key: '1.2',
-          title: '1.2',
-          icon: <SmileOutlined />,
-          children: [
-            {
-              key: '1.2.1',
-              title: '1.2.1',
-              icon: <MehOutlined />,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      key: '2',
-      title: '2',
-      icon: <SmileOutlined />,
-      children: [
-        {
-          key: '2.1',
-          icon: <SmileOutlined />,
-          title: '2.1',
-          children: [
-            {
-              key: '2.1.1',
-              title: '2.1.1',
-              icon: <MehOutlined />,
-            },
-            {
-              key: '2.1.2',
-              title: '2.1.2',
-              icon: <MehOutlined />,
-            },
-          ],
-        },
-        {
-          key: '2.2',
-          title: '2.2',
-          icon: <SmileOutlined />,
-          children: [
-            {
-              key: '2.2.1',
-              title: '2.2.1',
-              icon: <MehOutlined />,
-            },
-            {
-              key: '2.2.2',
-              title: '2.2.2',
-              icon: <MehOutlined />,
-            },
-            {
-              key: '2.2.3',
-              title: '2.2.3',
-              icon: <MehOutlined />,
-            },
-            {
-              key: '2.2.4',
-              title: '2.2.4',
-              icon: <MehOutlined />,
-            },
-            {
-              key: '2.2.5',
-              title: '2.2.5',
-              icon: <MehOutlined />,
-            },
-            {
-              key: '2.2.6',
-              title: '2.2.6',
-              icon: <MehOutlined />,
-            },
-            {
-              key: '2.2.7',
-              title: '2.2.7',
-              icon: <MehOutlined />,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      key: '3',
-      title: '3',
-      icon: <SmileOutlined />,
-      children: [
-        {
-          key: '3.1',
-          title: '3.1',
-          icon: <SmileOutlined />,
-          children: [
-            {
-              key: '3.1.1',
-              title: '3.1.1',
-              icon: <MehOutlined />,
-            },
-            {
-              key: '3.1.2',
-              title: '3.1.2',
-              icon: <MehOutlined />,
-            },
-          ],
-        },
-        {
-          key: '3.2',
-          title: '3.2',
-          icon: <SmileOutlined />,
-          children: [
-            {
-              key: '3.2.1',
-              title: '3.2.1',
-              icon: <MehOutlined />,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      key: '4',
-      title: '4',
-      icon: <SmileOutlined />,
-      children: [
-        {
-          key: '4.1',
-          title: '4.1',
-          icon: <SmileOutlined />,
-          children: [
-            {
-              key: '4.1.1',
-              title: '4.1.1',
-              icon: <MehOutlined />,
-            },
-            {
-              key: '4.1.2',
-              title: '4.1.2',
-              icon: <MehOutlined />,
-            },
-          ],
-        },
-        {
-          key: '4.2',
-          title: '4.2',
-          icon: <SmileOutlined />,
-          children: [
-            {
-              key: '4.2.1',
-              title: '4.2.1',
-              icon: <MehOutlined />,
-            },
-          ],
-        },
-      ],
-    },
-  ],
 };
 
 export default DtTree;

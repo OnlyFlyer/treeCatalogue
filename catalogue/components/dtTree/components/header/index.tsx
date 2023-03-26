@@ -19,18 +19,30 @@ export const prefixCls = 'dtTreeHeaderWrapper';
 export interface IProps {
   title?: React.ReactNode;
   collapsed?: boolean;
+  onCollapsed?: (collapsed: boolean) => void;
 }
 
 export default (props: IProps) => {
+  const { onCollapsed } = props;
   return (
     <div className={prefixCls}>
       <div className={`${prefixCls}-left`}>
-        <QuestionCircleOutlined />
-        {props.title}
+        <QuestionCircleOutlined style={{ fontSize: 14, marginRight: 4 }} />
+        <span style={{ fontSize: 14 }}>{props.title}</span>
       </div>
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <PlusOutlined />
-        {props.collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+        <PlusOutlined style={{ fontSize: 12 }} />
+        {props.collapsed ? (
+          <MenuUnfoldOutlined
+            style={{ fontSize: 14 }}
+            onClick={() => onCollapsed(false)}
+          />
+        ) : (
+          <MenuFoldOutlined
+            style={{ fontSize: 14 }}
+            onClick={() => onCollapsed(true)}
+          />
+        )}
       </div>
     </div>
   );
