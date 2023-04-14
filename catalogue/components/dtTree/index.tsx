@@ -71,6 +71,9 @@ const DtTree = (props: IProps) => {
       <Tree
         treeData={treeData}
         style={{ marginTop: 8 }}
+        switcherIcon={(props) => {
+          console.log(props, '--props');
+        }}
         // switcherIcon={1}
         showIcon
         height={200}

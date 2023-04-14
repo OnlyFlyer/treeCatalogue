@@ -11,6 +11,10 @@ import {
   MehOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
+  FolderOpenFilled,
+  FolderFilled,
+  // <FolderFilled />
+  // <FolderOpenFilled />.
 } from '@ant-design/icons';
 
 import Catalogue from './catalogue';
@@ -231,7 +235,11 @@ const App = () => {
       <Divider />
       <Catalogue.Tree treeData={data} showHeader={false} />
       <Divider />
-      <Catalogue.TreeSelect treeData={data} style={{ width: 200 }} />
+      <Catalogue.TreeSelect
+        treeData={data}
+        style={{ width: 200 }}
+        
+      />
     </div>
   );
 };
